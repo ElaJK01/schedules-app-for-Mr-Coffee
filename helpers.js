@@ -17,6 +17,12 @@ function checkEmailPassInDb(pool, email, pass) {
     })
 }
 
+const crypto = require('crypto');
+
+function generateAuthToken(){
+  return crypto.randomBytes(30).toString('hex');
+}
+
 
 const SHA256 = require('crypto-js/sha256');
 
@@ -30,7 +36,8 @@ const helpers = {
   isEmailValid,
   passwortNotempty,
   checkEmailPassInDb,
-  hashedPassword
+  hashedPassword,
+  generateAuthToken
 }
 
 

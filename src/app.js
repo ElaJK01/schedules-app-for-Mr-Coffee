@@ -6,6 +6,7 @@ app.set('views', __dirname + '/views');
 const helpers = require('../helpers.js')
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const { Pool, Client } = require('pg');
 
@@ -24,9 +25,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.use(cookieParser());
+
 app.get('/login', (req, res) => {
   res.render('login')
 })
+
+const authTokens = {};
+
+app.use((req, res, next) => {
+  const authToken = req.cookies['AuthToken'];
+  req.user = authTokens[authToken];
+  next();
+});
+
+function requireAuth(req, res, next) {
+  if (req.user){
+    next()
+  } return res.render('login', {message: 'Zaloguj się'})
+}
 
 //todo: set session
 app.post('/login', async (req, res, next) => {
@@ -41,7 +58,15 @@ app.post('/login', async (req, res, next) => {
     if (result.rows.length === 0) {
       return res.send('Niepoprawne hasło lub login')
       
-    } return res.redirect('homepage')
+    } 
+    const user = result.rows[0].id
+    if (user){
+      const authToken = helpers.generateAuthToken()
+      authTokens[authToken] = user;
+      res.cookie('AuthToken', authToken);
+      return res.redirect('homepage')
+    }
+    
   })
   .catch(err => {
     console.log(err);
@@ -52,7 +77,7 @@ app.post('/login', async (req, res, next) => {
   } return res.send('wypełnij poprawnie dane!')  
 })
 
-app.get('/homepage', (req, res) => {
+app.get('/homepage', requireAuth, (req, res) => {
   return res.render('homepage')
 })
 
