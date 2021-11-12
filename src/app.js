@@ -45,15 +45,14 @@ function requireAuth(req, res, next) {
   } return res.render('login', {message: 'Zaloguj się'})
 }
 
-//todo: set session
+
 app.post('/login', async (req, res, next) => {
   const emailValid = helpers.isEmailValid(req.body.email)
   const passwordNotempty = helpers.passwortNotempty(req.body.pass)
   const hashedPassword = helpers.hashedPassword(req.body.pass)
   
   if (emailValid && passwordNotempty) {
-         
- await pool.query(`SELECT * FROM users WHERE email='${req.body.email}' AND pass='${hashedPassword}';`)
+  await pool.query(`SELECT * FROM users WHERE email='${req.body.email}' AND pass='${hashedPassword}';`)
   .then(result => {
     if (result.rows.length === 0) {
       return res.send('Niepoprawne hasło lub login')
@@ -66,19 +65,29 @@ app.post('/login', async (req, res, next) => {
       res.cookie('AuthToken', authToken);
       return res.redirect('homepage')
     }
-    
   })
-  .catch(err => {
+  .catch(err => { 
     console.log(err);
     res.sendStatus(500);
     return;
   })
      
   } return res.send('wypełnij poprawnie dane!')  
+
 })
 
 app.get('/homepage', requireAuth, (req, res) => {
   return res.render('homepage')
+})
+
+app.get('/logout', (req, res) => {
+  return res.render('logout')
+})
+
+app.post('/logout', requireAuth, (req, res) => {
+  res.clearCookie('AuthToken')
+  delete authTokens[req.cookies['AuthToken']]
+  return res.render('logout', {message: 'Jesteś wylogowany'})
 })
 
 

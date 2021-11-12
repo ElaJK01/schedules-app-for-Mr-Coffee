@@ -8,15 +8,6 @@ function passwortNotempty(pass){
   return (pass.trim().length > 0)
 }
 
-function checkEmailPassInDb(pool, email, pass) {
-    pool.query(`SELECT * FROM users WHERE email=${email} AND pass=${pass};`, (result, err) => {
-      console.log(result.rows)
-      if (result.rows.length === 0) {
-        return false
-      }
-    })
-}
-
 const crypto = require('crypto');
 
 function generateAuthToken(){
@@ -35,7 +26,6 @@ const hashedPassword = (password) => {
 const helpers = {
   isEmailValid,
   passwortNotempty,
-  checkEmailPassInDb,
   hashedPassword,
   generateAuthToken
 }
