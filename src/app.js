@@ -7,6 +7,17 @@ const helpers = require('../helpers.js')
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const { Pool, Client } = require('pg');
+
+const pool = new Pool({
+  database: 'mr_c_auth_app',
+  user: 'c_auth_user',
+  password: 'coffee',
+  host: 'localhost',
+  port: 5432,
+});
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -17,16 +28,27 @@ app.get('/login', (req, res) => {
   res.render('login')
 })
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res, next) => {
   const emailValid = helpers.isEmailValid(req.body.email)
-  
-  if (emailValid) {
-    return res.send('email ok')
-  } 
-    return res.send('wrong email')
-//2. spr czy passwor format ok. - no empty spaces and white signs
-//3. checkIfemail in db
-
+  const passwordNotempty = helpers.passwortNotempty(req.body.pass)
+  const hashedPassword = helpers.hashedPassword(req.body.pass)
+  console.log(hashedPassword)
+  if (emailValid && passwordNotempty) {
+         
+ await pool.query(`SELECT * FROM users WHERE email='${req.body.email}' AND pass='${hashedPassword}';`)
+  .then(result => {
+    if (result.rows.length === 0) {
+      return res.send('Niepoprawne hasło lub login')
+      next()
+    } return res.send('zalogowano')
+  })
+  .catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+    return;
+  })
+     
+  } return res.send('wypełnij poprawnie dane!')  
 })
 
 
