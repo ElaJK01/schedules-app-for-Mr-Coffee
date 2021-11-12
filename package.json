@@ -1,0 +1,31 @@
+{
+  "name": "exercise-6-mr-coffee---login-register-ElaJK01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01/issues"
+  },
+  "homepage": "https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01#readme",
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
