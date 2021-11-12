@@ -8,18 +8,13 @@ function passwortNotempty(pass){
   return (pass.trim().length > 0)
 }
 
-async function checkEmailPassInDb(pool, email, pass) {
-  await pool.query(`SELECT * FROM users WHERE email='${email}' AND pass='${pass}';`)
-  .then(result => {
-    if (result.rows.length === 0) {
-      return res.send('Niepoprawne hasło lub login')
-    } return res.send('zalogowano')
-  })
-  .catch(err => {
-    console.log(err);
-    res.sendStatus(500);
-    return;
-  })
+function checkEmailPassInDb(pool, email, pass) {
+    pool.query(`SELECT * FROM users WHERE email=${email} AND pass=${pass};`, (result, err) => {
+      console.log(result.rows)
+      if (result.rows.length === 0) {
+        return false
+      }
+    })
 }
 
 

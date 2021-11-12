@@ -28,19 +28,20 @@ app.get('/login', (req, res) => {
   res.render('login')
 })
 
+//todo: set session
 app.post('/login', async (req, res, next) => {
   const emailValid = helpers.isEmailValid(req.body.email)
   const passwordNotempty = helpers.passwortNotempty(req.body.pass)
   const hashedPassword = helpers.hashedPassword(req.body.pass)
-  console.log(hashedPassword)
+  
   if (emailValid && passwordNotempty) {
          
  await pool.query(`SELECT * FROM users WHERE email='${req.body.email}' AND pass='${hashedPassword}';`)
   .then(result => {
     if (result.rows.length === 0) {
       return res.send('Niepoprawne hasło lub login')
-      next()
-    } return res.send('zalogowano')
+      
+    } return res.redirect('homepage')
   })
   .catch(err => {
     console.log(err);
@@ -49,6 +50,10 @@ app.post('/login', async (req, res, next) => {
   })
      
   } return res.send('wypełnij poprawnie dane!')  
+})
+
+app.get('/homepage', (req, res) => {
+  return res.render('homepage')
 })
 
 
