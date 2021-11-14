@@ -10,7 +10,7 @@
         <th>zakończenie</th>
       </tr>
       <tr>
-        <% for(var i = 0; i < schedules.length; i++) {%>
+        <% for (let i = 0; i < schedules.length; i++) {%>
           <td><%= schedules.[i].day %></td>
           <td><%= schedules.[i].start_at %></td> 
           <td><%= schedules.[i].end_at %></td>
@@ -18,4 +18,5 @@
         
       </tr>
     </table>
+    
   </section>
