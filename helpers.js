@@ -15,6 +15,27 @@ async function checkLogin(pool, email, pass) {
   return res
 }
 
+async function checkUserinDb(pool, id) {
+  const res = await pool.query(`SELECT * FROM users WHERE id=${id};`)
+  .then((result) => {return result.rows[0]})
+  .catch(err => console.log(err))
+  return res
+}
+
+function isFormValid(day, start, end) {
+  if (day.trim().length > 0 && start.trim().length > 0 && end.trim().length > 0) {
+    return true
+  }
+}
+
+async function selectUserSchedules(pool, user) {
+  const res = await pool
+  .query(`SELECT user_id, day, to_char(start_at, 'HH24:MI') as start_at, to_char(end_at, 'HH24:MI') as end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${user}`)
+  .then((result) => result.rows)
+  .catch(err => console.log(err.stack))
+  return res
+}
+
 const crypto = require('crypto');
 
 function generateAuthToken(){
@@ -36,7 +57,10 @@ const helpers = {
   hashedPassword,
   generateAuthToken,
   checkLogin,
-  
+  isFormValid,
+  selectUserSchedules,
+  checkUserinDb,
+    
 }
 
 

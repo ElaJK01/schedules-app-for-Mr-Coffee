@@ -109,6 +109,52 @@ app.get('/add-schedules', (req, res) =>{
   }
 })
 
+async function addTodb(q){
+  pool.query(q, (err, result) => {
+    if (err) {
+      console.log(err.stack)
+    } return result
+  })
+}
+
+app.post('/add-schedules', async (req, res) => {
+  if (req.user) {
+    if (helpers.isFormValid(req.body.day, req.body.start_at, req.body.end_at)) {
+      try {
+        const dbRes = await helpers.checkUserinDb(pool, req.user)
+        if (dbRes === undefined){
+          res.send('Nie ma takiego uzytkownika. nie można dodać schedula')
+        } else {
+          const insertScheduleQuery = `INSERT INTO schedules (user_id, day, start_at, end_at) VALUES (${req.user}, '${req.body.day.toLowerCase()}', '${req.body.start_at}', '${req.body.end_at}')` 
+          const userSchedulsList = await helpers.selectUserSchedules(pool, req.user)
+          const ThisdayInUserSchedules = userSchedulsList.filter(e =>  e.day === req.body.day.toLowerCase())
+             if (ThisdayInUserSchedules.length === 0) {
+              addTodb(insertScheduleQuery) 
+              return res.send('schedule dodany!')
+              }
+         const scheduleInTheSameTime = ThisdayInUserSchedules.filter(e => (e.start_at === req.body.start_at || (e.start_at < req.body.end_at
+                && e.end_at < req.body.start_at)) || (e.start_at < req.body.start_at && e.end_at < req.body.end_at))
+               if (scheduleInTheSameTime.length > 0) {
+                     return res.send('W tym czasie masz już zaplanowane spotkanie')
+                   } addTodb(insertScheduleQuery)
+                    return res.send('schedule dodany!')
+              }
+
+      } catch (err) {
+        console.log(err)
+
+      }  
+
+      
+             
+      
+
+    } return res.send('Wypełnij wszystkie pola')
+  } else {
+    return res.send('zaloguj się!')
+  }
+})
+
 app.get('/logout', (req, res) => {
   if (req.user) {
     return res.render('logout')
