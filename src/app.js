@@ -143,12 +143,7 @@ app.post('/add-schedules', async (req, res) => {
       } catch (err) {
         console.log(err)
 
-      }  
-
-      
-             
-      
-
+      }    
     } return res.send('Wypełnij wszystkie pola')
   } else {
     return res.send('zaloguj się!')
@@ -167,6 +162,10 @@ app.post('/logout', (req, res) => {
   res.clearCookie('AuthToken')
   delete authTokens[req.cookies['AuthToken']]
   return res.send('Jesteś wylogowany')
+})
+
+app.get('/signup', (req, res) => {
+  return res.render('signup')
 })
 
 
