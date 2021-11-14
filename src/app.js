@@ -143,7 +143,7 @@ app.post('/add-schedules', async (req, res) => {
 
 app.get('/logout', (req, res) => {
   if (req.user) {
-    return res.render('logout');
+    return res.redirect('login');
   }
   return res.send('nie jesteś zalogowany');
 });

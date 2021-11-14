@@ -1,16 +1,19 @@
 <%- include('../partials/main'); %>
 <body>
-  <section>
-  <h4>Zaloguj się:</h4>
-  <form method="POST" action="/login">
-    <label for="email">e-mail</label>
-    <input id="email" name="email">
-    <label for="pass">password</label>
-    <input id="pass" type="password" name="pass">
-    <button type="submit" formaction="/login" formmethod="post">Log in</button>
-  </form>
+  <section class="main">
+    <div class="container">
+      <h4>Zaloguj się:</h4>
+      <form method="POST" action="/login">
+        <label class="form-label" for="email">e-mail</label>
+        <input id="email" name="email">
+        <label class="form-label" for="pass">password</label>
+        <input id="pass" type="password" name="pass">
+        <button type="submit" formaction="/login" formmethod="post">Log in</button>
+      </form>
 
-  <button><a href="/signup">Zarejestruj się</a></button>
+
+      <button><a href="/signup">Zarejestruj się</a></button>
+    </div>
   </section>
   
 </body>

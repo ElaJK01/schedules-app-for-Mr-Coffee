@@ -1,11 +1,11 @@
 <%- include('../partials/main'); %>
 <body>
   <%- include('../partials/header'); %>
-  <section>
-    <h3>Witaj: <%= user.firstname %> <%= user.lastname %>!</h3>
-    <h4>Twoje zapisane dane:</h4>
+  <section class="main">
+    <h4>Witaj: <%= user.firstname %> <%= user.lastname %>!</h4>
+    <div class="container">
     <p>email: <%= user.email %><p>
-    <h4>zapisane spotkania:</h4>
+    <h4>Twoje spotkania:</h4>
     <table>
       <tr>
         <th>Dzień</th>
@@ -20,5 +20,5 @@
       </tr>
       <% } %>
     </table>
-    
+  </div>
   </section>

@@ -1,7 +1,9 @@
 <%- include('../partials/main'); %>
 <body>
   <%- include('../partials/header'); %>
-  <section>
+  <section class="grid">
+  <section class="terms">
+    <div>
     <h4>Dodaj nowy termin</h4>
       <form method="post" action="/add-schedules">
         <label for="day">Wybierz dzień</label>
@@ -20,25 +22,31 @@
         <input id="end_at" type="time" name="end_at">
         <button type="submit" formaction="/add-schedules" formmethod="post">Zapisz</button>
       </form>
+    </div> 
+     
   </section>
-  <section>
-    <h4>Twoje terminy:</h4>
-    <table>
-      <tr>
-        <th>Dzień</th>
-        <th>rozpoczęcie</th>
-        <th>zakończenie</th>
-      </tr>
-      <% for (let i = 0; i < schedules.length; i++) { %>
-      <tr>
-        <td><%= schedules[i].day %></td>
-        <td><%= schedules[i].start_at %></td>
-        <td><%= schedules[i].end_at %></td>
-      </tr>
-      <% } %>
-    </table>
+  <section id="terms">
+    <div>
+      <h4>Twoje terminy:</h4>
+      <table>
+        <tr>
+          <th>Dzień</th>
+          <th>rozpoczęcie</th>
+          <th>zakończenie</th>
+        </tr>
+        <% for (let i = 0; i < schedules.length; i++) { %>
+        <tr>
+          <td><%= schedules[i].day %></td>
+          <td><%= schedules[i].start_at %></td>
+          <td><%= schedules[i].end_at %></td>
+        </tr>
+        <% } %>
+      </table>
+    </div>
+    
+  </section>
+</section>
 
-  </section>
 </body>
 </html>
 
