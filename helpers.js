@@ -50,6 +50,19 @@ const hashedPassword = (password) => {
 
 }
 
+function signupFormValid(name, lastname, email, pass, confPass) {
+  if (name.trim().length > 0 && lastname.trim().length > 0 && email.trim().length > 0 && pass.trim().length > 0 && confPass.trim().length > 0 ) {
+    return true
+  }
+}
+
+async function checkEmailinDb(pool, email) {
+  const resDb = await pool.query(`SELECT * FROM users WHERE email='${email}'`)
+  .then((result) => {return result.rows[0]})
+  .catch(err => console.log(err))
+  return resDb
+}
+
 
 const helpers = {
   isEmailValid,
@@ -60,7 +73,8 @@ const helpers = {
   isFormValid,
   selectUserSchedules,
   checkUserinDb,
-    
+  signupFormValid,
+  checkEmailinDb  
 }
 
 

@@ -168,6 +168,34 @@ app.get('/signup', (req, res) => {
   return res.render('signup')
 })
 
+app.post('/signup', async (req, res) => {
+  if (!helpers.isEmailValid(req.body.email)) {
+    return res.send('niepoprawny format email')
+  } 
+  
+  if (!helpers.signupFormValid(req.body.firstname, req.body.lastname, req.body.email, req.body.pass, req.body.confPass)) {
+    return res.send('wypełnij wszystkie dane!') }
+
+  if (req.body.pass !== req.body.confPass) {
+    return res.send('podaj dwa takie  same hasła')
+  }
+  const hashedPass = helpers.hashedPassword(req.body.pass)
+  try {
+      const checkEmail = await helpers.checkEmailinDb(pool, req.body.email)
+      if (checkEmail !== undefined) {
+        return res.send('Użytkownik o podanym adresie email już istnieje - zaloguj się')
+      }
+        pool.query(`INSERT INTO users (firstname, lastname, email, pass) VALUES 
+        ('${req.body.firstname}', '${req.body.lastname}', '${req.body.email}', '${hashedPass}');`)
+        .then(result => {return res.redirect('login')})
+        .catch(err => console.log(err))
+            
+  } catch (err) {
+    console.log(err)
+  }
+ 
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
