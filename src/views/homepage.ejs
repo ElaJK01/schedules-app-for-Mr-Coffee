@@ -9,14 +9,14 @@
         <th>rozpoczęcie</th>
         <th>zakończenie</th>
       </tr>
+      <% for (let i = 0; i < schedules.length; i++) { %>
       <tr>
-        <% for (let i = 0; i < schedules.length; i++) {%>
-          <td><%= schedules.[i].day %></td>
-          <td><%= schedules.[i].start_at %></td> 
-          <td><%= schedules.[i].end_at %></td>
-        <% } %>
-        
+          <td><%= schedules[i].day %></td>  
+          <td><%= schedules[i].start_at %></td> 
+          <td><%= schedules[i].end_at %></td>
+          <td><a href="employee/<%= schedules[i].user_id %>"><%= schedules[i].firstname %> <%= schedules[i].lastname %></a></td>
       </tr>
+      <% } %>
     </table>
     
   </section>

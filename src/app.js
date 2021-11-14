@@ -54,7 +54,6 @@ app.post('/login', async (req, res, next) => {
   if (emailValid && passwordNotempty) {
     try {
      const result = await helpers.checkLogin(pool, req.body.email, hashedPassword)
-     console.log(result)
       if (result === undefined) {
           return res.send('Niepoprawne hasło lub login')
         } else { 
@@ -79,15 +78,20 @@ app.post('/login', async (req, res, next) => {
 app.get('/homepage', (req, res) => {
   const userId = req.user
    pool
-   .query(`SELECT user_id, firstname, lastname, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${userId};`)
-   .then( result => {return res.send(result.rows)}) 
-  // .then(result => {return res.render('homepage', {schedules: result.rows})})
+   .query(`SELECT * FROM users INNER JOIN schedules ON users.id=schedules.user_id;`)
+  //  .then( result => {return res.send(result.rows)}) 
+  .then(result => {return res.render('homepage', {schedules: result.rows})})
    .catch((e) => console.error(e))
   
 })
 
-app.get('employee/:id', (req, res) => {
-  res.render('employee')
+app.get('/employee/:id', (req, res) => {
+  pool.query(`SELECT user_id, firstname, lastname, email, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${req.params.id};`)
+  .then(result => { if (result.rows.length === 0) {
+    return res.send('nie ma takiego użytkownika')
+  } return res.render('employee', {user: result.rows[0], userData: result.rows})})
+  .catch((e) => console.error(e))
+  
 })
 
 app.get('/logout', requireAuth, (req, res) => {

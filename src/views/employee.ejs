@@ -1,0 +1,24 @@
+<%- include('../partials/main'); %>
+<body>
+  <%- include('../partials/header'); %>
+  <section>
+    <h3>Witaj: <%= user.firstname %> <%= user.lastname %>!</h3>
+    <h4>Twoje zapisane dane:</h4>
+    <p>email: <%= user.email %><p>
+    <h4>zapisane spotkania:</h4>
+    <table>
+      <tr>
+        <th>Dzień</th>
+        <th>rozpoczęcie</th>
+        <th>zakończenie</th>
+      </tr>
+      <% for (let i = 0; i < userData.length; i++) { %>
+      <tr>
+        <td><%= userData[i].day %></td>
+        <td><%= userData[i].start_at %></td>
+        <td><%= userData[i].end_at %></td>
+      </tr>
+      <% } %>
+    </table>
+    
+  </section>
