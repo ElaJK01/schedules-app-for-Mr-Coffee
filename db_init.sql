@@ -24,6 +24,22 @@ CREATE TABLE schedules (
 );
 
 
--- create first user in database:
+-- create first users in database fr testing:
 INSERT INTO users (firstname, lastname, email, pass) VALUES ('Kot', 'Wbutach', 'kot@gmail.com', 'b6a5ff9e10883d2329be9ef74cdf1d78ee546f719362fb4325040928a386a520');
 -- pass: kot
+INSERT INTO users (firstname, lastname, email, pass) VALUES ('dog', 'Dog', 'dog@gmail.com', 'cd6357efdd966de8c0cb2f876cc89ec74ce35f0968e11743987084bd42fb8944');
+--pass:dog
+
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (1, 'monday', '12:00', '14:30');
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (1, 'tuesday', '11:00', '12:30');
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (1, 'wednesday', '10:00', '13:30');
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (1, 'thursday', '9:30', '11:30');
+
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (2, 'monday', '16:00', '17:30');
+INSERT INTO schedules (user_id, day, start_at, end_at)
+VALUES (2, 'tuesday', '17:00', '19:00');

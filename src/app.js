@@ -45,7 +45,6 @@ function requireAuth(req, res, next) {
   } return res.render('login', {message: 'Zaloguj się'})
 }
 
-
 app.post('/login', async (req, res, next) => {
   const emailValid = helpers.isEmailValid(req.body.email)
   const passwordNotempty = helpers.passwortNotempty(req.body.pass)
@@ -57,14 +56,16 @@ app.post('/login', async (req, res, next) => {
     if (result.rows.length === 0) {
       return res.send('Niepoprawne hasło lub login')
       
-    } 
+    } else { 
     const user = result.rows[0].id
     if (user){
       const authToken = helpers.generateAuthToken()
       authTokens[authToken] = user;
       res.cookie('AuthToken', authToken);
       return res.redirect('homepage')
-    }
+      
+      }
+    } res.end()
   })
   .catch(err => { 
     console.log(err);
@@ -72,15 +73,26 @@ app.post('/login', async (req, res, next) => {
     return;
   })
      
-  } return res.send('wypełnij poprawnie dane!')  
+} return res.send('wypełnij poprawnie dane!')
 
 })
 
-app.get('/homepage', requireAuth, (req, res) => {
-  return res.render('homepage')
+//dodać requireAuth
+app.get('/homepage', (req, res) => {
+  const userId = req.user
+   pool
+   .query(`SELECT user_id, firstname, lastname, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${userId};`)
+  //  .then( result => {return res.send(result.rows)}) 
+  .then(result => {return res.render('homepage', {schedules: result.rows})})
+   .catch((e) => console.error(e))
+  
 })
 
-app.get('/logout', (req, res) => {
+app.get('employee/:id', (req, res) => {
+  res.render('employee')
+})
+
+app.get('/logout', requireAuth, (req, res) => {
   return res.render('logout')
 })
 

@@ -28,6 +28,7 @@ const helpers = {
   passwortNotempty,
   hashedPassword,
   generateAuthToken
+  
 }
 
 
