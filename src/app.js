@@ -39,13 +39,6 @@ app.use((req, res, next) => {
   next();
 });
 
-function requireAuth(req, res, next) {
-  if (req.user){
-    next()
-  } return res.render('login', {message: 'Zaloguj się'})
-}
-
-
 app.post('/login', async (req, res, next) => {
   const emailValid = helpers.isEmailValid(req.body.email)
   const passwordNotempty = helpers.passwortNotempty(req.body.pass)
@@ -74,34 +67,60 @@ app.post('/login', async (req, res, next) => {
 
 })
 
-//dodać requireAuth
+
 app.get('/homepage', (req, res) => {
-  const userId = req.user
+  if (req.user) {
    pool
    .query(`SELECT * FROM users INNER JOIN schedules ON users.id=schedules.user_id;`)
-  //  .then( result => {return res.send(result.rows)}) 
-  .then(result => {return res.render('homepage', {schedules: result.rows})})
+   .then(result => {return res.render('homepage', {schedules: result.rows})})
    .catch((e) => console.error(e))
+  } else {
+    res.send('proszę zaloguj się!')
+  }
   
 })
+
 
 app.get('/employee/:id', (req, res) => {
-  pool.query(`SELECT user_id, firstname, lastname, email, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${req.params.id};`)
-  .then(result => { if (result.rows.length === 0) {
-    return res.send('nie ma takiego użytkownika')
-  } return res.render('employee', {user: result.rows[0], userData: result.rows})})
-  .catch((e) => console.error(e))
-  
+  if (req.user) {
+    pool.query(`SELECT user_id, firstname, lastname, email, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${req.params.id};`)
+    .then(result => { if (result.rows.length === 0) {
+      return res.send('nie ma takiego użytkownika')
+    } return res.render('employee', {user: result.rows[0], userData: result.rows})})
+    .catch((e) => console.error(e))
+} else {
+  return res.send('zaloguj się')
+}
 })
 
-app.get('/logout', requireAuth, (req, res) => {
-  return res.render('logout')
+
+app.get('/add-schedules', (req, res) =>{
+  const user=req.user
+  try {
+    if (user){
+      pool.query(`SELECT * FROM schedules WHERE user_id=${user}`)
+      .then(result => {return res.render('add-schedules', {schedules: result.rows})})
+      .catch((e) => console.error(e))
+    } else {
+      return res.redirect('/login')
+    }
+  } catch (e) {
+    console.log(e)
+  }
 })
 
-app.post('/logout', requireAuth, (req, res) => {
+app.get('/logout', (req, res) => {
+  if (req.user) {
+    return res.render('logout')
+  } else {
+    return res.send('nie jesteś zalogowany')
+  }
+})
+
+app.post('/logout', (req, res) => {
   res.clearCookie('AuthToken')
   delete authTokens[req.cookies['AuthToken']]
-  return res.render('logout', {message: 'Jesteś wylogowany'})
+  return res.send('Jesteś wylogowany')
 })
 
 
