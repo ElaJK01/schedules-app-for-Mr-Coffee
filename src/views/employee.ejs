@@ -2,10 +2,12 @@
 <body>
   <%- include('../partials/header'); %>
   <section class="main">
-    <h4>Witaj: <%= user.firstname %> <%= user.lastname %>!</h4>
-    <div class="container">
-    <p>email: <%= user.email %><p>
-    <h4>Twoje spotkania:</h4>
+    <div class="employee">
+    <h3>Informacje o <%= user.firstname %> <%= user.lastname %>!</h3>
+    <p>email: <%= user.email %></p>
+    </div>
+    <div class="home-container">
+    <h3>Zaplanowane terminy użytkownika:</h3>
     <table>
       <tr>
         <th>Dzień</th>

@@ -2,13 +2,14 @@
 <body>
   <%- include('../partials/header'); %>
   <section class="main">
-    <div class="container">
+    <div class="home-container">
     <h4>Spotkania:</h4>
     <table>
       <tr>
         <th>Dzień</th>
-        <th>rozpoczęcie</th>
-        <th>zakończenie</th>
+        <th>Rozpoczęcie</th>
+        <th>Zakończenie</th>
+        <th>Osoba</th>
       </tr>
       <% for (let i = 0; i < schedules.length; i++) { %>
       <tr>
@@ -19,6 +20,7 @@
       </tr>
       <% } %>
     </table>
-  </div>
+    </div>
     
   </section>
+  

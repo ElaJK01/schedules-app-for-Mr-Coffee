@@ -7,6 +7,16 @@
   <style>
 
   /*login form*/  
+
+* { box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+ }
+
+body {
+  background-color: cornflowerblue;
+  margin: 0px;
+  }
   
 h4 {
   font-size: 25px;
@@ -26,7 +36,7 @@ h4 {
   background-color: #f2f2f2;
   padding: 20px;
   width: 300px;
-  height: 500px;
+  height: 650px;
   position: absolute;
   top:0;
   bottom: 0;
@@ -49,7 +59,7 @@ h4 {
 .grid {
   display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 10px;
 }
 
 form label {
@@ -61,6 +71,7 @@ form label {
 form input, label {
   display:block;
   width: 100%;
+  height: 35px;
 }
 
 form label {
@@ -73,19 +84,26 @@ form label {
 
 
 form select {
-  background-color: rgb(201, 203, 207);
+  border-radius: 12px;
   height: 50px;
-  border: none;
+  border: transparent;
   width: 100%;
+  background-color: white;
 }
 
 form input:hover {
-  background-color: rgb(156, 160, 165);
+  background-color:cornflowerblue;
 }
 
 form select:hover {
-  background-color: rgb(156, 160, 165);
+  background-color:cornflowerblue;
 }
+
+form input {
+  border: transparent;
+  border-radius: 12px;
+}
+
 
 button {
   margin-top: 10px;
@@ -94,15 +112,97 @@ button {
   justify-items: center;
   align-self: center;
   margin: auto; 
-  margin-bottom: 20px;
-  margin-top: 20px;
-  background-color:lightgray;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  background-color: cornflowerblue; 
   color:black;
   width: 100%;
-  height: 20px;
-  
+  height: 35px;
+  border-radius: 12px;
+  font-size: 20px;
+  border: transparent;
+   
 }
 
-  </style>
+a:link {
+  text-decoration: none;
+}
+
+/*navbar*/
+nav {
+  width: 100%;
+  overflow: auto;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+}
+
+li {
+  float: left;
+  display: inline;
+}
+
+nav a {
+  display: block;
+  padding: 8px;
+  background-color: #dddddd;
+}
+
+.home-container {
+  display: block;
+  overflow: auto;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 80%;
+  margin-top: 5%;
+  position: absolute;
+  margin-left: 10%;
+  margin-right: -10%;
+ 
+}
+
+.employee {
+  display: block;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: -10%;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: cornflowerblue;
+  color: black;
+  height: 50px;
+}
+
+td {
+  height: 30px;
+}
+
+table {
+  width: 100%;
+}
+
+tr:hover {background-color: lightgray;}
+
+table {
+  margin-top: 50px;
+}
+
+ </style>
   <title>My schedules app - Mr Coffee</title>
 </head>
+
