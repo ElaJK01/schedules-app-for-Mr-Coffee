@@ -74,7 +74,7 @@ app.get('/homepage', (req, res) => {
       .then((result) => res.render('homepage', { schedules: result.rows }))
       .catch((e) => console.error(e));
   } else {
-    res.send('proszę zaloguj się!');
+    res.render('login');
   }
 });
 
@@ -88,7 +88,7 @@ app.get('/employee/:id', (req, res) => {
       })
       .catch((e) => console.error(e));
   } else {
-    return res.send('zaloguj się');
+    return res.render('login');
   }
 });
 
