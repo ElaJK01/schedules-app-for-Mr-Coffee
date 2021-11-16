@@ -6,6 +6,7 @@ app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+app.use('/static', express.static('public'))
 
 const { Pool } = require('pg');
 const helpers = require('../helpers');
@@ -29,6 +30,10 @@ app.use(cookieParser());
 app.get('/login', (req, res) => {
   res.render('login');
 });
+
+app.get('/', (req, res) => {
+  res.redirect('login')
+})
 
 const authTokens = {};
 
