@@ -2,22 +2,19 @@ const express = require('express');
 
 const app = express();
 const port = 3000;
+require('dotenv').config();
+
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-app.use('/static', express.static('public'))
+
+app.use('/static', express.static('public'));
 
 const { Pool } = require('pg');
 const helpers = require('../helpers');
 
-const pool = new Pool({
-  database: 'mr_c_auth_app',
-  user: 'c_auth_user',
-  password: 'coffee',
-  host: 'localhost',
-  port: 5432,
-});
+const pool = new Pool();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,8 +29,8 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('login')
-})
+  res.redirect('login');
+});
 
 const authTokens = {};
 
@@ -83,7 +80,7 @@ app.get('/employee/:id', (req, res) => {
     pool.query(`SELECT user_id, firstname, lastname, email, day, start_at, end_at FROM users INNER JOIN schedules ON users.id=schedules.user_id WHERE user_id=${req.params.id};`)
       .then((result) => {
         if (result.rows.length === 0) {
-          return res.send('nie ma takiego użytkownika');
+          return res.send('Nie ma takiego użytkownika!');
         } return res.render('employee', { user: result.rows[0], userData: result.rows });
       })
       .catch((e) => console.error(e));
@@ -121,7 +118,7 @@ app.post('/add-schedules', async (req, res) => {
       try {
         const dbRes = await helpers.checkUserinDb(pool, req.user);
         if (dbRes === undefined) {
-          res.send('Nie ma takiego uzytkownika. nie można dodać schedula');
+          res.send('Nie ma takiego uzytkownika. Nie można dodać schedula');
         } else {
           const insertScheduleQuery = `INSERT INTO schedules (user_id, day, start_at, end_at) VALUES 
           (${req.user}, '${req.body.day.toLowerCase()}', '${req.body.start_at}', '${req.body.end_at}')`;
@@ -148,9 +145,9 @@ app.post('/add-schedules', async (req, res) => {
 
 app.get('/logout', (req, res) => {
   if (req.user) {
-    return res.redirect('login');
+    return res.render('logout');
   }
-  return res.send('nie jesteś zalogowany');
+  return res.send('nie jesteś zalogowany! Zaloguj się: <a href="/login">Login</a>');
 });
 
 app.post('/logout', (req, res) => {
@@ -177,7 +174,7 @@ app.post('/signup', async (req, res) => {
   try {
     const checkEmail = await helpers.checkEmailinDb(pool, req.body.email);
     if (checkEmail !== undefined) {
-      return res.send('Użytkownik o podanym adresie email już istnieje - zaloguj się');
+      return res.send('Użytkownik o podanym adresie email już istnieje - zaloguj się: <a href="/login">Login</a>');
     }
     pool.query(`INSERT INTO users (firstname, lastname, email, pass) VALUES 
         ('${req.body.firstname}', '${req.body.lastname}', '${req.body.email}', '${hashedPass}');`)
