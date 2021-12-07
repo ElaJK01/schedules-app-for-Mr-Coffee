@@ -1,4 +1,4 @@
-##Exercise 6 - Mr Coffee - schedules app with autentication.
+## Exercise 6 - Mr Coffee - schedules app with autentication.
 
 Funcionalities:
 * Login/Logout
