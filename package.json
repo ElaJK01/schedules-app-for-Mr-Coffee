@@ -1,5 +1,5 @@
 {
-  "name": "exercise-6-mr-coffee---login-register-ElaJK01",
+  "name": "Schedules App for mr Coffee",
   "version": "1.0.0",
   "description": "",
   "main": "src/app.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01.git"
+    "url": "git+https://github.com/ElaJK01/schedules-app-for-Mr-Coffee.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01/issues"
+    "url": "https://github.com/ElaJK01/schedules-app-for-Mr-Coffee/issues"
   },
-  "homepage": "https://github.com/pl-incode/exercise-6-mr-coffee---login-register-ElaJK01#readme",
+  "homepage": "https://github.com/ElaJK01/schedules-app-for-Mr-Coffee#readme",
   "devDependencies": {
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
