@@ -1,4 +1,4 @@
-## Sschedules app for Mr Coffee.
+## Schedules app for Mr Coffee.
 
 #### General:
 Application made as a part of Mr Coffee service (exercise during the INCODE course)
